@@ -1,0 +1,30 @@
+{
+  "Login": {
+    "title": "Bienvenido de nuevo",
+    "description": "Ingresa tus datos para acceder a la plataforma.",
+    "google": "Ingresa con Google",
+    "or": "O ingrese con su correo",
+    "forgotPassword": "Olvidaste la contraseña ?",
+    "form": {
+      "buttons": {
+        "submit": "Imgresar"
+      },
+      "fields": {
+        "email": {
+          "label": "Correo",
+          "placeholder": "correo@gmail.com",
+          "errors": {
+            "required": "Ingrese un correo valido."
+          }
+        },
+        "password": {
+          "label": "Contraseña",
+          "placeholder": "************",
+          "errors": {
+            "required": "Ingrese una contraseña valida."
+          }
+        }
+      }
+    }
+  }
+}
