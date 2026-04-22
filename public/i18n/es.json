@@ -5,6 +5,10 @@
     "google": "Ingresa con Google",
     "or": "O ingrese con su correo",
     "forgotPassword": "Olvidaste la contraseña ?",
+    "register": {
+      "text": "Aun no tienes una cuenta? ",
+      "link": "Registrate"
+    },
     "form": {
       "buttons": {
         "submit": "Imgresar"

@@ -9,7 +9,6 @@ export class ThemeStore {
   theme = signal<ITheme>('light');
 
   constructor() {
-    console.log('THEME');
     const localTheme = localStorage.getItem(THEME_KEY) as ITheme | undefined;
     if (localTheme) {
       this.theme.set(localTheme);

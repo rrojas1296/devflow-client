@@ -1,14 +1,14 @@
 import { NgClass } from '@angular/common';
-import { Component, computed, effect, Input, input } from '@angular/core';
+import { Component, computed, effect, input } from '@angular/core';
 import { cva } from 'class-variance-authority';
-import { cn } from '../../utils/cv';
+import { cn } from '../../utils/cn';
 
 const buttonStyles = cva(
-  'h-10 rounded-lg flex justify-center items-center outline-none cursor-pointer px-3 transition-colors',
+  'h-10 rounded-lg gap-3 text-sm flex justify-center items-center outline-none cursor-pointer px-3 transition-colors',
   {
     variants: {
       variant: {
-        filled: 'bg-primary-500 text-text-3',
+        filled: 'bg-primary-500 text-text-3 hover:bg-primary-300',
         secondary: '',
         outlined: 'border border-border-1 text-text-1 hover:bg-bg-2',
       },
@@ -23,15 +23,16 @@ const buttonStyles = cva(
   styleUrl: './button.css',
 })
 export class Button {
-  @Input() customClass: string = '';
-  @Input() variant: 'filled' | 'secondary' | 'outlined' = 'filled';
+  customClass = input<string>('');
+  variant = input<'filled' | 'secondary' | 'outlined'>('filled');
+  type = input<HTMLButtonElement['type']>('button');
 
-  get classes() {
-    return cn(
+  classes = computed(() =>
+    cn(
       buttonStyles({
-        variant: this.variant,
+        variant: this.variant(),
       }),
-      this.customClass,
-    );
-  }
+      this.customClass(),
+    ),
+  );
 }

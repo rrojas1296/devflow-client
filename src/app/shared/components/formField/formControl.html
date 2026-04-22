@@ -1,0 +1,21 @@
+<div class="flex flex-col" *transloco="let t">
+  <label class="font-medium text-sm text-text-1 mb-px" [class.text-danger-500]="invalidField">{{
+    label()
+  }}</label>
+  <div
+    [class.border-danger-500]="invalidField"
+    class="border border-border-1 h-10 rounded-lg px-3 text-sm items-center flex gap-3"
+  >
+    <input
+      [placeholder]="placeholder()"
+      autocomplete="off"
+      [type]="type()"
+      class="placeholder:text-text-2 w-full h-full outline-none"
+      [formField]="field()"
+    />
+    <ng-content select="[icon]"></ng-content>
+  </div>
+  @if (invalidField) {
+    <p class="text-sm text-danger-500 mt-1">{{ t(field()().errors()[0].message || '') }}</p>
+  }
+</div>
