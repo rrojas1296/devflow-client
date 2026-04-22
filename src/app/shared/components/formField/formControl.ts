@@ -17,6 +17,9 @@ export class FormControl {
   type = input<HTMLInputElement['type']>('text');
   field = input.required<Field<string>>();
   classes = computed(() => cn('flex flex-col', this.customClass()));
+  labelClass = computed(() =>
+    cn('font-medium text-sm mb-px text-text-1', this.invalidField && 'text-danger-500'),
+  );
 
   get invalidField(): boolean {
     return this.sended() && this.field()().touched() && this.field()().errors().length > 0;

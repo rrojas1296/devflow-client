@@ -1,7 +1,5 @@
-<div [ngClass]="classes()" *transloco="let t">
-  <label class="font-medium text-sm text-text-1 mb-px" [class.text-danger-500]="invalidField">{{
-    label()
-  }}</label>
+<div [class]="classes()" *transloco="let t">
+  <label [class]="labelClass()">{{ label() }}</label>
   <div
     [class.border-danger-500]="invalidField"
     class="border border-border-1 h-10 rounded-lg px-3 text-sm items-center flex gap-3"
