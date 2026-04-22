@@ -30,5 +30,51 @@
         }
       }
     }
+  },
+  "Register": {
+    "title": "Registrarse",
+    "description": "Ingresa tus datos para crear una cuenta nueva",
+    "google": "Registrate con google",
+    "or": "O registrese con su correo",
+    "login": {
+      "text": "Ya tienes una cuenta ?",
+      "link": "Ingresa"
+    },
+    "form": {
+      "buttons": {
+        "submit": "Registrarse"
+      },
+      "fields": {
+        "firstName": {
+          "label": "Nombres",
+          "placeholder": "Jhon",
+          "errors": {
+            "required": "Ingrese sus nombres."
+          }
+        },
+        "lastName": {
+          "label": "Apellidos",
+          "placeholder": "Doe",
+          "errors": {
+            "required": "Ingrese sus apellidos."
+          }
+        },
+        "email": {
+          "label": "Correo",
+          "placeholder": "correo@gmail.com",
+          "errors": {
+            "required": "Ingrese un correo valido."
+          }
+        },
+        "password": {
+          "label": "Contraseña",
+          "placeholder": "************",
+          "errors": {
+            "required": "Ingrese una contraseña valida.",
+            "min": "La contraseña debe tener al menos 6 caracteres."
+          }
+        }
+      }
+    }
   }
 }

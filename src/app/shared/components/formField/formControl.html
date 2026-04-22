@@ -1,4 +1,4 @@
-<div class="flex flex-col" *transloco="let t">
+<div [ngClass]="classes()" *transloco="let t">
   <label class="font-medium text-sm text-text-1 mb-px" [class.text-danger-500]="invalidField">{{
     label()
   }}</label>

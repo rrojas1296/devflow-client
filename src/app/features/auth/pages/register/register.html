@@ -1,3 +1,71 @@
-<div *transloco="let t" class="grid place-items-center h-screen text-text-1">
-  <div>Register</div>
+<div *transloco="let t" class="bg-bg-1 grid place-items-center h-screen">
+  <form
+    novalidate
+    (submit)="submitData($event)"
+    class="w-10/12 max-w-md text-text-1 grid grid-cols-2 gap-5 lg:p-8"
+  >
+    <div
+      class="w-10 h-10 col-span-2 rounded-lg bg-black text-white dark:bg-white dark:text-black justify-self-center flex items-center justify-center"
+    >
+      <app-logo-icon></app-logo-icon>
+    </div>
+    <div class="col-span-2">
+      <h1 class="text-2xl font-semibold text-center">{{ t('Login.title') }}</h1>
+      <p class="text-text-2 text-sm mt-1 text-center">{{ t('Login.description') }}</p>
+    </div>
+    <app-button variant="outlined" class="col-span-2" customClass="w-full">
+      <app-google-icon class="w-5 h-5" />
+      {{ t('Register.google') }}
+    </app-button>
+
+    <div class="relative w-full h-5 col-span-2">
+      <hr class="w-full h-px text-text-2 absolute top-1/2 -translate-y-1/2" />
+      <p
+        class="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-bg-1 px-3 text-sm text-text-2 whitespace-nowrap"
+      >
+        {{ t('Login.or') }}
+      </p>
+    </div>
+
+    @for (control of controls; track control.name) {
+      <app-formControl
+        [label]="t(control.label)"
+        [placeholder]="t(control.placeholder)"
+        [type]="control.name === 'password' ? (showPassword() ? 'text' : 'password') : control.type"
+        [field]="registerForm[control.name]"
+        [class]="control.className"
+        [sended]="sended()"
+      >
+        @switch (control.name) {
+          @case ('email') {
+            <svg lucideMail icon class="stroke-text-2 w-5 h-5"></svg>
+          }
+          @case ('password') {
+            <button
+              type="button"
+              class="cursor-pointer"
+              icon
+              (click)="showPassword.set(!showPassword())"
+            >
+              @if (showPassword()) {
+                <svg lucideEyeOff class="stroke-text-2 w-5 h-5"></svg>
+              } @else {
+                <svg lucideEye class="stroke-text-2 w-5 h-5"></svg>
+              }
+            </button>
+          }
+        }
+      </app-formControl>
+    }
+
+    <app-button type="submit" class="col-span-2" customClass="w-full">
+      {{ t('Register.form.buttons.submit') }}
+    </app-button>
+    <p class="text-center transition-colors text-sm text-text-1 col-span-2">
+      {{ t('Register.login.text') }}
+      <a routerLink="/auth/login" class="text-primary-500 font-semibold hover:text-primary-300">{{
+        t('Register.login.link')
+      }}</a>
+    </p>
+  </form>
 </div>

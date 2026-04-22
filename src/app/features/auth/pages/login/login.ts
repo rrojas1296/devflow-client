@@ -2,7 +2,7 @@ import { Button } from '@/app/shared/components/button/button';
 import { GoogleIcon } from '@/app/shared/components/icons/google.icon';
 import { IControl } from '@/app/shared/types/IControl';
 import { Component, signal } from '@angular/core';
-import { form, validateStandardSchema, FormField } from '@angular/forms/signals';
+import { form, validateStandardSchema } from '@angular/forms/signals';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { LoginSchema, loginSchema } from '../../schemas/login.schema';
 import { LogoIcon } from '@/app/shared/components/icons/logoIcon/LogoIcon';
@@ -41,6 +41,8 @@ export class Login {
       type: 'password',
     },
   ];
+
+  sended = signal(false);
   showPassword = signal(false);
 
   formModel = signal({
@@ -54,6 +56,8 @@ export class Login {
 
   submitData(event: Event) {
     event.preventDefault();
+
+    if (!this.sended()) this.sended.set(true);
 
     Object.keys(this.loginForm().value()).forEach((key) => {
       this.loginForm[key as keyof LoginSchema]().markAsTouched();

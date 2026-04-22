@@ -1,20 +1,24 @@
 import { NgClass } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { Field, FormField } from '@angular/forms/signals';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { cn } from '../../utils/cn';
 
 @Component({
   selector: 'app-formControl',
   templateUrl: './formControl.html',
-  imports: [FormField, TranslocoDirective],
+  imports: [FormField, TranslocoDirective, NgClass],
 })
 export class FormControl {
   label = input<string>('');
   placeholder = input<string>();
+  customClass = input<string | undefined>('');
+  sended = input<boolean>(false);
   type = input<HTMLInputElement['type']>('text');
   field = input.required<Field<string>>();
+  classes = computed(() => cn('flex flex-col', this.customClass()));
 
   get invalidField(): boolean {
-    return this.field()().touched() && this.field()().errors().length > 0;
+    return this.sended() && this.field()().touched() && this.field()().errors().length > 0;
   }
 }

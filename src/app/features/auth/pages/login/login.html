@@ -33,6 +33,8 @@
         [placeholder]="t(control.placeholder)"
         [type]="control.name === 'password' ? (showPassword() ? 'text' : 'password') : control.type"
         [field]="loginForm[control.name]"
+        [customClass]="control.className"
+        [sended]="sended()"
       >
         @switch (control.name) {
           @case ('email') {
@@ -61,7 +63,9 @@
       >{{ t('Login.forgotPassword') }}</a
     >
 
-    <app-button type="submit" customClass="w-full">{{ t('Login.form.buttons.submit') }}</app-button>
+    <app-button type="submit" customClass="w-full">
+      {{ t('Login.form.buttons.submit') }}
+    </app-button>
     <p class="text-center transition-colors text-sm text-text-1">
       {{ t('Login.register.text') }}
       <a

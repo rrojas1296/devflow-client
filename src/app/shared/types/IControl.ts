@@ -3,4 +3,5 @@ export interface IControl<T> {
   label: string;
   placeholder: string;
   type: HTMLInputElement['type'];
+  className?: string;
 }
