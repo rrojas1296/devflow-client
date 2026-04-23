@@ -1,10 +1,9 @@
 import { Button } from '@/app/shared/components/button/button';
 import { GoogleIcon } from '@/app/shared/components/icons/google.icon';
-import { IControl } from '@/app/shared/types/IControl';
 import { Component, signal } from '@angular/core';
 import { form, validateStandardSchema } from '@angular/forms/signals';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { LoginSchema, loginSchema } from '../../schemas/login.schema';
+import { loginControls, LoginSchema, loginSchema } from '../../schemas/login.schema';
 import { LogoIcon } from '@/app/shared/components/icons/logoIcon/LogoIcon';
 import { RouterLink } from '@angular/router';
 import { FormControl } from '@/app/shared/components/formField/formControl';
@@ -27,20 +26,7 @@ import { LucideEye, LucideMail, LucideEyeOff } from '@lucide/angular';
   styleUrl: './login.css',
 })
 export class Login {
-  controls: IControl<keyof LoginSchema>[] = [
-    {
-      name: 'email',
-      label: 'Login.form.fields.email.label',
-      placeholder: 'Login.form.fields.email.placeholder',
-      type: 'email',
-    },
-    {
-      name: 'password',
-      label: 'Login.form.fields.password.label',
-      placeholder: 'Login.form.fields.password.placeholder',
-      type: 'password',
-    },
-  ];
+  controls = loginControls;
 
   sended = signal(false);
   showPassword = signal(false);
@@ -63,8 +49,5 @@ export class Login {
       this.loginForm[key as keyof LoginSchema]().markAsTouched();
     });
     if (!this.loginForm().valid()) return;
-    console.log({
-      data: this.loginForm().value(),
-    });
   }
 }

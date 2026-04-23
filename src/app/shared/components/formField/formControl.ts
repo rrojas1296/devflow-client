@@ -1,13 +1,12 @@
-import { NgClass } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
 import { Field, FormField } from '@angular/forms/signals';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { cn } from '../../utils/cn';
+import { cn } from '@/app/shared/utils/cn';
 
 @Component({
   selector: 'app-formControl',
   templateUrl: './formControl.html',
-  imports: [FormField, TranslocoDirective, NgClass],
+  imports: [FormField, TranslocoDirective],
 })
 export class FormControl {
   label = input<string>('');

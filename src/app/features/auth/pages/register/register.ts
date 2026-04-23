@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { registerControls, RegisterSchema, registerSchema } from '../../schemas/register.schema';
 import { FormControl } from '@/app/shared/components/formField/formControl';
@@ -8,6 +8,7 @@ import { LogoIcon } from '@/app/shared/components/icons/logoIcon/LogoIcon';
 import { form, validateStandardSchema } from '@angular/forms/signals';
 import { LucideEye, LucideEyeOff, LucideMail } from '@lucide/angular';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -26,6 +27,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './register.css',
 })
 export class Register {
+  private authService = inject(AuthService);
   controls = registerControls;
   sended = signal(false);
 
@@ -42,7 +44,7 @@ export class Register {
     validateStandardSchema(schemaPath, registerSchema);
   });
 
-  submitData(event: Event) {
+  async submitData(event: Event) {
     event.preventDefault();
     if (!this.sended()) this.sended.set(true);
 
@@ -51,8 +53,9 @@ export class Register {
     });
 
     if (!this.registerForm().valid()) return;
+    const u = await this.authService.registerUser(this.registerForm().value());
     console.log({
-      data: this.registerForm().value(),
+      d: u,
     });
   }
 }
