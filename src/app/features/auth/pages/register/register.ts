@@ -53,9 +53,7 @@ export class Register {
     });
 
     if (!this.registerForm().valid()) return;
-    const u = await this.authService.registerUser(this.registerForm().value());
-    console.log({
-      d: u,
-    });
+    const data = this.registerForm().value();
+    const d = await this.authService.registerUser(data);
   }
 }
