@@ -1,0 +1,42 @@
+.dark {
+  --bg-1: #0d0e12;
+  --bg-2: #16181f;
+  --bg-accent: #385df1;
+
+  --text-1: #ffffff;
+  --text-2: #a2aabe;
+  --text-accent: #ffffff;
+
+  --border-1: #585d6e;
+  --border-2: #383c48;
+
+  --badge-1: #2b3142;
+  --badge-2: #5e3432;
+  --badge-3: #2b5d36;
+  --badge-4: #562a5c;
+
+  --ring-1: #e2e8ff;
+}
+
+/* Aply media query to listen system dark */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not(.dark) {
+    --bg-1: #0d0e12;
+    --bg-2: #16181f;
+    --bg-accent: #385df1;
+
+    --text-1: #ffffff;
+    --text-2: #a2aabe;
+    --text-accent: #ffffff;
+
+    --border-1: #585d6e;
+    --border-2: #383c48;
+
+    --badge-1: #2b3142;
+    --badge-2: #5e3432;
+    --badge-3: #2b5d36;
+    --badge-4: #562a5c;
+
+    --ring-1: #e2e8ff;
+  }
+}

@@ -1,0 +1,28 @@
+@import "tailwindcss";
+@import "./theme.css";
+@import "@fontsource-variable/inter/wght.css";
+
+body {
+  font-family: "Inter Variable", sans-serif;
+}
+
+/* Edit theme */
+@theme {
+  --color-bg-1: var(--bg-1);
+  --color-bg-2: var(--bg-2);
+  --color-bg-accent: var(--bg-accent);
+
+  --color-text-1: var(--text-1);
+  --color-text-2: var(--text-2);
+  --color-text-accent: var(--text-accent);
+
+  --color-border-1: var(--border-1);
+  --color-border-2: var(--border-2);
+
+  --color-badge-1: var(--badge-1);
+  --color-badge-2: var(--badge-2);
+  --color-badge-3: var(--badge-3);
+  --color-badge-4: var(--badge-4);
+
+  --color-ring-1: var(--ring-1);
+}
