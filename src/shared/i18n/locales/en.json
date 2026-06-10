@@ -1,5 +1,43 @@
 {
+  "Header": {
+    "options": {
+      "home": "Home",
+      "jobs": "Jobs",
+      "companies": "Companies",
+      "saved": "Saved"
+    },
+    "language": {
+      "en": "English",
+      "es": "Spanish",
+      "pt": "Português"
+    },
+    "login": "Login",
+    "themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "System"
+    }
+  },
   "Jobs": {
-    "title": "Jobs"
+    "title": "Find Your Next Job",
+    "subtitle": "Browse curated listings from top platforms",
+    "kpis": {
+      "total": {
+        "title": "Total offers",
+        "description": "All aggregated listings"
+      },
+      "added": {
+        "title": "Jobs in the Last 24h",
+        "description": "New jobs today"
+      },
+      "sources": {
+        "title": "Active Sources",
+        "description": "Connected platforms"
+      },
+      "companies": {
+        "title": "Hiring Companies",
+        "description": "All companies"
+      }
+    }
   }
 }
