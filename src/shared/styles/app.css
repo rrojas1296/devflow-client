@@ -1,15 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import "tailwindcss";
 @import "./theme.css";
-@import "@fontsource-variable/inter/wght.css";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/inter";
 
 @custom-variant dark (&:is(.dark *));
-
-body {
-  font-family: "Inter Variable", sans-serif;
-}
 
 /* Edit theme */
 @theme {
@@ -32,6 +27,7 @@ body {
   --color-ring-1: var(--ring-1);
 
   --spacing-9xl: 96rem;
+  --font-display: "Inter", sans-serif;
 }
 
 @theme inline {
@@ -137,16 +133,4 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-  html {
-    @apply font-sans;
-  }
 }

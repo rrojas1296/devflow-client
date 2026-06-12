@@ -57,7 +57,7 @@ const HeaderApp = () => {
   return (
     <header className="flex items-center justify-center py-5 border-b border-border-2 xl:py-0 xl:h-16">
       <div className="w-10/12 max-w-9xl font-bold text-xl flex justify-between items-center">
-        <div>
+        <div className="text-text-1">
           <p>Devflow</p>
         </div>
         <ul className="lg:flex gap-5 hidden">

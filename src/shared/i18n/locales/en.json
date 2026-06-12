@@ -38,6 +38,59 @@
         "title": "Hiring Companies",
         "description": "All companies"
       }
+    },
+    "filters": {
+      "title": "Filters",
+      "clear": "Clear",
+      "searchPlaceholder": "Search role, company or technology",
+      "options": {
+        "location": {
+          "label": "Location",
+          "title": "Location"
+        },
+        "postedDate": {
+          "label": "Posted Date",
+          "title": "Posted Date",
+          "options": {
+            "month": "Last Month",
+            "week": "Last Week",
+            "day": "Last Day"
+          }
+        },
+        "technologies": {
+          "label": "Technologies",
+          "title": "Technologies"
+        },
+        "source": {
+          "label": "Source",
+          "title": "Source",
+          "options": {
+            "linkedin": "Linkedin",
+            "indeed": "Indeed",
+            "computrabajo": "Computrabajo",
+            "getonboard": "Get On Board"
+          }
+        },
+        "modality": {
+          "label": "Modality",
+          "title": "Modality",
+          "options": {
+            "remote": "Remote",
+            "hybrid": "Hybrid",
+            "onsite": "On site"
+          }
+        }
+      }
+    },
+    "orderBy": {
+      "new": "Newest",
+      "old": "Oldest",
+      "az": "A-Z"
+    },
+    "show": {
+      "showing": "Showing ",
+      "of": " of ",
+      "jobs": " jobs"
     }
   }
 }

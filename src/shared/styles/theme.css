@@ -1,3 +1,22 @@
+:root {
+  --bg-1: #f8f9fc;
+  --bg-2: #ffffff;
+  --bg-accent: #385df1;
+
+  --text-1: #0d0e12;
+  --text-2: #5f677a;
+  --text-accent: #ffffff;
+
+  --border-1: #d6d9e3;
+  --border-2: #e6e9f2;
+
+  --badge-1: #e9ecf5;
+  --badge-2: #f6d6d4;
+  --badge-3: #d9f2e0;
+  --badge-4: #efdaf3;
+
+  --ring-1: #385df1;
+}
 .dark {
   --bg-1: #0d0e12;
   --bg-2: #16181f;
@@ -18,7 +37,6 @@
   --ring-1: #e2e8ff;
 }
 
-/* Aply media query to listen system dark */
 @media (prefers-color-scheme: dark) {
   :root:not(.light):not(.dark) {
     --bg-1: #0d0e12;

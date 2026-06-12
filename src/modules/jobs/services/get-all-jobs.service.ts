@@ -5,7 +5,7 @@ import type { Job } from "../types/jobs.types";
 import type { JobFilterParams } from "../types/filters.types";
 
 export const getAllJobsService = (params: JobFilterParams) => {
-  return instance.get<ApiResponse<{ jobs: Job[]; total: number }>>(
+  return instance.get<ApiResponse<{ jobs: Job[]; count: number }>>(
     JOBS_ENDPOINTS.JOBS.GET_ALL,
     { params },
   );

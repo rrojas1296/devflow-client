@@ -6,6 +6,7 @@ const useGetAllJobs = (params: JobFilterParams) => {
   return useQuery({
     queryKey: ["jobs", params],
     queryFn: async () => getAllJobsService(params),
+    select: (res) => res.data.data,
   });
 };
 
