@@ -21,6 +21,7 @@ import { cn } from "@/shared/lib/cn";
 import { Link, useLocation } from "react-router";
 import type { Theme } from "@/shared/types/theme.types";
 import { useTheme } from "@/shared/store/use-theme.store";
+import { I18N_LANG_KEY } from "@/shared/i18n/i18n-keys";
 
 const options = [
   {
@@ -51,7 +52,10 @@ const HeaderApp = () => {
   const { pathname } = useLocation();
   const language = i18n.language;
 
-  const handleLanguage = (lang: string) => i18n.changeLanguage(lang);
+  const handleLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem(I18N_LANG_KEY, lang);
+  };
 
   const handleTheme = (theme: Theme) => setTheme(theme);
   return (

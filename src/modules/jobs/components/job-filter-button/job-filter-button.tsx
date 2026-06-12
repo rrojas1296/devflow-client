@@ -13,7 +13,7 @@ interface Props {
   label: string;
   title: string;
   icon?: ReactNode;
-  cols?: number;
+  cols?: string;
   many?: boolean;
   options: FilterOption[];
   setOptions: (options: FilterOption[]) => void;
@@ -24,7 +24,7 @@ const JobFilterButton = ({
   icon: Icon,
   options,
   setOptions,
-  cols = 1,
+  cols = "1",
   many = true,
 }: Props) => {
   const handleChecked = (value: string) => {
@@ -45,9 +45,9 @@ const JobFilterButton = ({
           {label}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="flex flex-col gap-2 w-46">
+      <PopoverContent className="flex flex-col gap-2 max-w-72 w-fit">
         <p className="text-sm text-text-1 font-bold"> {title}</p>
-        <div className={cn(`grid grid-cols-${cols} gap-2`)}>
+        <div className={cn(`grid gap-2 grid-cols-${cols}`)}>
           {options.map((opt) => {
             return (
               <div

@@ -3,6 +3,7 @@ import {
   modalityFilterOptions,
   postedDateFilterOptions,
   sourceFilterOptions,
+  technologyFilterOptions,
 } from "../constants/filters";
 import type { JobFilterParams, JobFiltersState } from "../types/filters.types";
 
@@ -16,7 +17,10 @@ export const handleLoadFilters = (params: JobFilterParams, t: TFunction) => {
       label: t(o.label),
       checked: postedDate?.split(",").includes(o.value) ?? false,
     })),
-    technologies: [],
+    technologies: technologyFilterOptions.map((o) => ({
+      ...o,
+      checked: params.technologies?.split(",").includes(o.value) ?? false,
+    })),
     source: sourceFilterOptions.map((o) => ({
       ...o,
       label: t(o.label),

@@ -8,7 +8,7 @@ const LayoutApp = ({ children }: Props) => {
   return (
     <div>
       <HeaderApp />
-      <section className="w-10/12 max-w-9xl mx-auto py-5">{children}</section>
+      <section className="w-11/12 max-w-9xl mx-auto py-5">{children}</section>
     </div>
   );
 };

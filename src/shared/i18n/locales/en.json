@@ -91,6 +91,14 @@
       "showing": "Showing ",
       "of": " of ",
       "jobs": " jobs"
+    },
+    "card": {
+      "more": "more",
+      "location": "Location",
+      "posted": "Posted",
+      "source": "Source",
+      "details": "Details",
+      "apply": "Apply"
     }
   }
 }

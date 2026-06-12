@@ -1,4 +1,5 @@
 import type { FilterOption } from "../types/filters.types";
+import { jobTechnologies } from "./technologies";
 
 export const postedDateFilterOptions: FilterOption[] = [
   {
@@ -41,6 +42,10 @@ export const sourceFilterOptions: FilterOption[] = [
     checked: false,
   },
 ];
+
+export const technologyFilterOptions: FilterOption[] = jobTechnologies.map(
+  (j) => ({ ...j, checked: false }),
+);
 
 export const modalityFilterOptions: FilterOption[] = [
   {

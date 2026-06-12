@@ -15,14 +15,18 @@ import JobKpiCard from "../components/job-kpi-card/job-kpi-card";
 import JobFilters from "../components/job-filters/job-filters";
 import { cn } from "@/shared/lib/cn";
 import { useState } from "react";
+import JobCard from "../components/job-card/job-card";
+import useDebounce from "@/shared/hooks/use-debounce";
 
 const JobsPage = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const params = Object.fromEntries(searchParams.entries());
   const [orderBy, setOrderBy] = useState(params.orderBy ?? "new");
+  const debouncedSearch = useDebounce(params.search ?? "", 500);
   const { data } = useGetAllJobs({
     ...params,
+    search: debouncedSearch,
     orderBy,
     page: 1,
     limit: 23,
@@ -91,7 +95,7 @@ const JobsPage = () => {
         </div>
         <JobFilters />
       </section>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between flex-col gap-5 lg:flex-row lg:items-center">
         <div className="text-text-2 text-sm">
           <span> {t("Jobs.show.showing")}</span>
           <span className="text-text-1 font-bold">1 - 12</span>
@@ -99,13 +103,13 @@ const JobsPage = () => {
           <span className="text-text-1 font-bold">{count}</span>
           <span> {t("Jobs.show.jobs")}</span>
         </div>
-        <div className="rounded-3xl border border-border-2 bg-bg-2 h-9 py-1.5 text-xs text-text-2 flex items-center gap-2 px-3">
+        <div className="rounded-3xl border border-border-2 bg-bg-2 h-9 py-1.5 text-xs text-text-2 flex items-center gap-2 px-3 w-fit">
           <ArrowUpDownIcon className="size-4" />
           {["new", "old", "az"].map((key) => (
             <button
               onClick={() => handleOrderBy(key)}
               className={cn(
-                "h-full px-3 rounded-3xl cursor-pointer",
+                "h-full px-3 rounded-3xl cursor-pointer outline-none",
                 orderBy === key && "bg-bg-accent text-text-accent",
               )}
             >
@@ -113,6 +117,11 @@ const JobsPage = () => {
             </button>
           ))}
         </div>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5">
+        {jobs.map((job, i) => (
+          <JobCard key={job.id} job={job} index={i} />
+        ))}
       </div>
     </div>
   );

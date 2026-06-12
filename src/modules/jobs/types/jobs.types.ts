@@ -2,7 +2,8 @@ export interface Job {
   id: string;
   title: string;
   company: JobCompany;
-  technologies: string[];
+  stack: string[];
+  location: string;
   modality: Modality;
   description: string;
   linkUrl: string;
@@ -24,7 +25,7 @@ export interface JobCompany {
 export const JobModalityEnum = {
   REMOTE: "remote",
   ONSITE: "onsite",
-  HIBRID: "hibrid",
+  HYBRID: "hybrid",
 } as const;
 
 export const JobSourceEnum = {

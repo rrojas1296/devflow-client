@@ -1,0 +1,104 @@
+{
+  "Header": {
+    "options": {
+      "home": "Início",
+      "jobs": "Vagas",
+      "companies": "Empresas",
+      "saved": "Salvos"
+    },
+    "language": {
+      "en": "Inglês",
+      "es": "Espanhol",
+      "pt": "Português"
+    },
+    "login": "Entrar",
+    "themes": {
+      "dark": "Escuro",
+      "light": "Claro",
+      "system": "Sistema"
+    }
+  },
+  "Jobs": {
+    "title": "Encontre seu próximo emprego",
+    "subtitle": "Explore vagas selecionadas das principais plataformas",
+    "kpis": {
+      "total": {
+        "title": "Total de vagas",
+        "description": "Todas as vagas agregadas"
+      },
+      "added": {
+        "title": "Vagas nas últimas 24h",
+        "description": "Novas vagas hoje"
+      },
+      "sources": {
+        "title": "Fontes ativas",
+        "description": "Plataformas conectadas"
+      },
+      "companies": {
+        "title": "Empresas contratando",
+        "description": "Todas as empresas"
+      }
+    },
+    "filters": {
+      "title": "Filtros",
+      "clear": "Limpar",
+      "searchPlaceholder": "Buscar cargo, empresa ou tecnologia",
+      "options": {
+        "location": {
+          "label": "Localização",
+          "title": "Localização"
+        },
+        "postedDate": {
+          "label": "Data de publicação",
+          "title": "Data de publicação",
+          "options": {
+            "month": "Último mês",
+            "week": "Última semana",
+            "day": "Último dia"
+          }
+        },
+        "technologies": {
+          "label": "Tecnologias",
+          "title": "Tecnologias"
+        },
+        "source": {
+          "label": "Fonte",
+          "title": "Fonte",
+          "options": {
+            "linkedin": "LinkedIn",
+            "indeed": "Indeed",
+            "computrabajo": "Computrabajo",
+            "getonboard": "Get on Board"
+          }
+        },
+        "modality": {
+          "label": "Modalidade",
+          "title": "Modalidade",
+          "options": {
+            "remote": "Remoto",
+            "hybrid": "Híbrido",
+            "onsite": "Presencial"
+          }
+        }
+      }
+    },
+    "orderBy": {
+      "new": "Mais recentes",
+      "old": "Mais antigos",
+      "az": "A-Z"
+    },
+    "show": {
+      "showing": "Mostrando ",
+      "of": " de ",
+      "jobs": " vagas"
+    },
+    "card": {
+      "more": "mais",
+      "location": "Localização",
+      "posted": "Publicado",
+      "source": "Fonte",
+      "details": "Detalhes",
+      "apply": "Candidatar-se"
+    }
+  }
+}

@@ -99,6 +99,7 @@ const JobFilters = () => {
           title={t("Jobs.filters.options.technologies.title")}
           icon={<SquareStackIcon className="text-text-1 size-5" />}
           options={filters.technologies}
+          cols="2"
           setOptions={(opts) => handleFilter("technologies", opts)}
         />
         <JobFilterButton
