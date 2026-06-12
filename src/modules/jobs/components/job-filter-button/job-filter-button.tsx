@@ -28,7 +28,6 @@ const JobFilterButton = ({
   many = true,
 }: Props) => {
   const handleChecked = (value: string) => {
-    // Update to use many param
     const newOptions = options.map((opt) => {
       if (opt.value === value) {
         return { ...opt, checked: !opt.checked };
@@ -36,6 +35,13 @@ const JobFilterButton = ({
       return many ? opt : { ...opt, checked: false };
     });
     setOptions(newOptions);
+  };
+
+  const gridColsMap: Record<string, string> = {
+    "1": "grid-cols-1",
+    "2": "grid-cols-2",
+    "3": "grid-cols-3",
+    "4": "grid-cols-4",
   };
   return (
     <Popover>
@@ -45,9 +51,14 @@ const JobFilterButton = ({
           {label}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="flex flex-col gap-2 max-w-72 w-fit">
+      <PopoverContent className="min-w-auto w-fit">
         <p className="text-sm text-text-1 font-bold"> {title}</p>
-        <div className={cn(`grid gap-2 grid-cols-${cols}`)}>
+        <div
+          className={cn(
+            `flex-col gap-2 max-w-72 w-fit grid`,
+            gridColsMap[cols],
+          )}
+        >
           {options.map((opt) => {
             return (
               <div
