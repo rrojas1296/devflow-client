@@ -1,9 +1,9 @@
 export interface JobFilterParams {
-  page?: number;
-  limit?: number;
+  page?: string;
+  limit?: string;
   technologies?: string;
   modality?: string;
-  location?: string;
+  locations?: string;
   postedDate?: string;
   source?: string;
   search?: string;

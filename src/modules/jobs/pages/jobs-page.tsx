@@ -17,24 +17,38 @@ import { cn } from "@/shared/lib/cn";
 import { useState } from "react";
 import JobCard from "../components/job-card/job-card";
 import useDebounce from "@/shared/hooks/use-debounce";
+import Pagination from "@/shared/components/pagination/pagination";
+import { ignoredParams } from "../constants/ignoredParams";
+import JobEmpty from "../components/job-empty/job-empty";
 
 const JobsPage = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const params = Object.fromEntries(searchParams.entries());
+  const {
+    page = "1",
+    limit = "12",
+    ...params
+  } = Object.fromEntries(searchParams.entries());
+
+  const parsedPage = parseInt(page);
+  const parsedLimit = parseInt(limit);
   const [orderBy, setOrderBy] = useState(params.orderBy ?? "new");
   const debouncedSearch = useDebounce(params.search ?? "", 500);
   const { data } = useGetAllJobs({
     ...params,
     search: debouncedSearch,
     orderBy,
-    page: 1,
-    limit: 23,
+    page,
+    limit,
   });
   const jobs = data?.jobs ?? [];
   const count = data?.count ?? 0;
+  const start = Math.max(1, (parsedPage - 1) * parsedLimit + 1);
+  const end = Math.min(count, start + parsedLimit - 1);
 
-  const showClearFilters = Array.from(searchParams.values()).length > 0;
+  const showClearFilters = Array.from(searchParams.entries()).some(
+    ([key, value]) => !ignoredParams.includes(key) && value,
+  );
 
   const handleClearFilters = () => {
     const params = new URLSearchParams();
@@ -98,7 +112,9 @@ const JobsPage = () => {
       <div className="flex justify-between flex-col gap-5 lg:flex-row lg:items-center">
         <div className="text-text-2 text-sm">
           <span> {t("Jobs.show.showing")}</span>
-          <span className="text-text-1 font-bold">1 - 12</span>
+          <span className="text-text-1 font-bold">
+            {start} -{end}
+          </span>
           <span> {t("Jobs.show.of")}</span>
           <span className="text-text-1 font-bold">{count}</span>
           <span> {t("Jobs.show.jobs")}</span>
@@ -118,10 +134,21 @@ const JobsPage = () => {
           ))}
         </div>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5">
-        {jobs.map((job, i) => (
-          <JobCard key={job.id} job={job} index={i} />
-        ))}
+      {jobs.length > 0 ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5">
+          {jobs.map((job, i) => (
+            <JobCard key={job.id} job={job} index={i} />
+          ))}
+        </div>
+      ) : (
+        <JobEmpty />
+      )}
+      <div className="flex items-center justify-center">
+        <Pagination
+          total={count}
+          limit={parseInt(limit)}
+          page={parseInt(page)}
+        />
       </div>
     </div>
   );

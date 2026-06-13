@@ -1,4 +1,6 @@
+import { I18N_LANG_KEY } from "@/shared/i18n/i18n-keys";
 import type { FilterOption } from "../types/filters.types";
+import { jobCountries } from "./countries";
 import { jobTechnologies } from "./technologies";
 
 export const postedDateFilterOptions: FilterOption[] = [
@@ -46,6 +48,15 @@ export const sourceFilterOptions: FilterOption[] = [
 export const technologyFilterOptions: FilterOption[] = jobTechnologies.map(
   (j) => ({ ...j, checked: false }),
 );
+
+export const locationFilterOptions: FilterOption[] = jobCountries.map((c) => {
+  const locale = localStorage.getItem(I18N_LANG_KEY) || "en";
+  return {
+    label: c.label[locale],
+    value: c.value,
+    checked: false,
+  };
+});
 
 export const modalityFilterOptions: FilterOption[] = [
   {

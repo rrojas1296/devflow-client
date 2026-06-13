@@ -12,12 +12,16 @@ import {
 import Input from "@/shared/components/input/input";
 import type { FilterOption, JobFiltersState } from "../../types/filters.types";
 import { useSearchParams } from "react-router";
-import { handleLoadFilters } from "../../utils/get-initial-filters";
 import { capitalize } from "@/shared/lib/capitalize";
+import useLoadFilters from "../../hooks/use-load-filters";
+import { ignoredParams } from "../../constants/ignoredParams";
 
 const JobFilters = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
+  const showFilters = Array.from(searchParams.entries()).some(
+    ([key, value]) => !ignoredParams.includes(key) && value,
+  );
   const jobFilterParams = Object.fromEntries(searchParams.entries());
   const badgets = Object.keys(jobFilterParams)
     .map((key) => ({
@@ -26,8 +30,7 @@ const JobFilters = () => {
     }))
     .flat();
 
-  const filters = handleLoadFilters(jobFilterParams, t);
-
+  const filters = useLoadFilters(jobFilterParams);
   const handleSearch = (text: string) => {
     const params = new URLSearchParams(jobFilterParams);
     if (text.length) {
@@ -59,6 +62,7 @@ const JobFilters = () => {
         .map((o) => o.value)
         .join(","),
     );
+    params.set("page", "1");
 
     for (const [k, v] of params.entries()) {
       if (!v || v.trim() === "") {
@@ -84,6 +88,7 @@ const JobFilters = () => {
           title={t("Jobs.filters.options.location.title")}
           icon={<MapPinIcon className="text-text-1 size-5" />}
           options={filters.locations}
+          cols="2"
           setOptions={(opts) => handleFilter("locations", opts)}
         />
         <JobFilterButton
@@ -117,11 +122,12 @@ const JobFilters = () => {
           setOptions={(opts) => handleFilter("modality", opts)}
         />
       </div>
-      {badgets.length ? (
+      {showFilters ? (
         <>
           <hr className="flex-1 text-border-2 my-3" />
           <div className="flex flex-wrap gap-3">
             {badgets.map(({ value, key }) => {
+              if (ignoredParams.includes(key)) return null;
               return value.map((val) => (
                 <div
                   onClick={() => handleDeleteParam(val, key)}

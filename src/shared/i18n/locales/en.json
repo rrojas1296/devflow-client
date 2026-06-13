@@ -99,6 +99,15 @@
       "source": "Source",
       "details": "Details",
       "apply": "Apply"
+    },
+    "job-details": {
+      "close": "Close",
+      "apply": "Apply to this offer"
+    },
+    "empty": {
+      "title": "No jobs found",
+      "subtitle": "Try adjusting your filters or search criteria",
+      "button": "Reset filters"
     }
   }
 }

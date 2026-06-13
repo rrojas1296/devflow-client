@@ -67,7 +67,7 @@ const JobFilterButton = ({
               >
                 <div
                   className={cn(
-                    "rounded-lg border border-border-2 bg-bg-1 grid place-items-center size-5",
+                    "rounded-lg border border-border-2 bg-bg-1 grid place-items-center size-5 shrink-0",
                     opt.checked && "bg-bg-accent border-none",
                   )}
                 >

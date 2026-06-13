@@ -3,6 +3,8 @@ import type { Job, Modality } from "../../types/jobs.types";
 import { Button } from "@/shared/components/shadcn-ui/button";
 import {
   BookmarkIcon,
+  CalendarIcon,
+  EarthIcon,
   MapPinIcon,
   SquareArrowOutUpRightIcon,
 } from "lucide-react";
@@ -11,6 +13,13 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { capitalize } from "@/shared/lib/capitalize";
 import { Link } from "react-router";
+import { jobCountries } from "../../constants/countries";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@/shared/components/shadcn-ui/dialog";
+import JobDialogDetails from "../job-dialog-details/job-dialog-details";
 
 dayjs.extend(relativeTime);
 
@@ -19,7 +28,8 @@ interface Props {
   index: number;
 }
 const JobCard = ({ job, index }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const {
     title,
     source,
@@ -30,6 +40,8 @@ const JobCard = ({ job, index }: Props) => {
     postedDate,
     stack,
   } = job;
+  const translatedLocation =
+    jobCountries.find((c) => c.value === location)?.label[locale] || "";
   const letters = company.name
     .split(" ")
     .slice(0, 2)
@@ -37,7 +49,7 @@ const JobCard = ({ job, index }: Props) => {
     .join("")
     .toUpperCase();
 
-  const date = dayjs(postedDate).fromNow();
+  const date = dayjs(postedDate).locale(locale).fromNow();
 
   const modalityStyles: Record<Modality, string> = {
     remote: "bg-badge-2",
@@ -75,10 +87,10 @@ const JobCard = ({ job, index }: Props) => {
           </div>
         </div>
         <Button variant="ghost" size="icon" className="hover:bg-bg-1">
-          <BookmarkIcon className="size-5 fill-text-1" />
+          <BookmarkIcon className="size-5" />
         </Button>
       </div>
-      <div className="flex flex-wrap gap-2 text-text-1 text-sm">
+      <div className="flex flex-wrap gap-2 text-text-1 text-xs">
         <div
           className={cn(
             "rounded-3xl h-6 px-3 flex items-center justify-center",
@@ -105,21 +117,22 @@ const JobCard = ({ job, index }: Props) => {
           <div className="text-text-1 flex items-center gap-2">
             <MapPinIcon className="size-5" />
             <span>
-              {location.slice(0, 16)} {location.length > 16 && "..."}
+              {translatedLocation.slice(0, 16)}{" "}
+              {translatedLocation.length > 16 && "..."}
             </span>
           </div>
         </div>
         <div className="flex flex-col gap-2">
           <p className="text-text-2">{t("Jobs.card.posted")}</p>
           <div className="text-text-1 flex items-center gap-2">
-            <MapPinIcon className="size-5" />
+            <CalendarIcon className="size-5" />
             <span>{date}</span>
           </div>
         </div>
         <div className="flex flex-col gap-2">
           <p className="text-text-2">{t("Jobs.card.source")}</p>
           <div className="text-text-1 flex items-center gap-2">
-            <MapPinIcon className="size-5" />
+            <EarthIcon className="size-5" />
             <span>{capitalize(source)}</span>
           </div>
         </div>
@@ -131,9 +144,16 @@ const JobCard = ({ job, index }: Props) => {
             <SquareArrowOutUpRightIcon className="size-5" />{" "}
           </Button>
         </Link>
-        <Button className="flex-1 hover:bg-bg-1" variant="outline">
-          {t("Jobs.card.details")}
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="flex-1 hover:bg-bg-1" variant="outline">
+              {t("Jobs.card.details")}
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <JobDialogDetails job={job} />
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
