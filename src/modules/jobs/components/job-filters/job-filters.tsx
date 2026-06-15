@@ -19,6 +19,7 @@ import { getFiltersByParams } from "../../lib/get-filters-by-params";
 import { getParamsByFilters } from "../../lib/get-params-by-filters";
 import { useJobFiltersStore } from "../../store/use-job-filters.store";
 import useGetChipFiltersJobs from "../../hooks/use-get-chip-filters-jobs";
+import { jobCountries } from "../../constants/countries";
 
 const JobFilters = () => {
   const { t, i18n } = useTranslation();
@@ -120,7 +121,13 @@ const JobFilters = () => {
               if (ignoredParams.includes(key)) return null;
               return (
                 <div className="text-sm text-text-accent bg-bg-accent rounded-3xl px-3 h-6 flex items-center gap-2">
-                  {capitalize(value)}
+                  {key === "postedDate"
+                    ? t(`Jobs.filters.options.postedDate.options.${value}`)
+                    : key === "locations"
+                      ? jobCountries.find((c) => c.value === value)?.label[
+                          locale
+                        ]
+                      : capitalize(value)}
                   <XIcon
                     onClick={() =>
                       handleDeleteParam(value, key as keyof JobFiltersState)

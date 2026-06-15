@@ -51,7 +51,7 @@ const JobFilterButton = ({
           {Icon}
           {label}
           {selectedLength > 0 && (
-            <div className="size-5 rounded-full bg-bg-accent grid place-items-center shrink-0">
+            <div className="size-5 rounded-full bg-bg-accent grid place-items-center shrink-0 text-xs">
               {selectedLength}
             </div>
           )}

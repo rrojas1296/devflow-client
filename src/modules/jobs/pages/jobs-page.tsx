@@ -18,19 +18,17 @@ import Pagination from "@/shared/components/pagination/pagination";
 import JobEmpty from "../components/job-empty/job-empty";
 import JobFilters from "../components/job-filters/job-filters";
 import useGetChipFiltersJobs from "../hooks/use-get-chip-filters-jobs";
-import {
-  jobFiltersInitialState,
-  useJobFiltersStore,
-} from "../store/use-job-filters.store";
+import { useJobFiltersStore } from "../store/use-job-filters.store";
 import JobLoading from "../components/job-loading/job-loading";
+import { getFiltersByParams } from "../lib/get-filters-by-params";
 
 const JobsPage = () => {
-  const { t } = useTranslation();
-
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const [page, setPage] = useState(1);
   const limit = 12;
   const [orderBy, setOrder] = useState("new");
-  const { data, isFetching } = useGetAllJobs({
+  const { data, isLoading } = useGetAllJobs({
     orderBy,
     page,
     limit,
@@ -44,7 +42,12 @@ const JobsPage = () => {
 
   const showClearFilters = chips.length > 0;
 
-  const handleClearFilters = () => setFilters(jobFiltersInitialState);
+  const handleClearFilters = () => {
+    const p = new URLSearchParams();
+    const params = Object.fromEntries(p.entries());
+    const f = getFiltersByParams(params, t, locale);
+    setFilters(f);
+  };
 
   const handleOrderBy = (key: string) => setOrder(key);
   return (
@@ -125,7 +128,7 @@ const JobsPage = () => {
           ))}
         </div>
       </div>
-      {isFetching ? (
+      {isLoading ? (
         <JobLoading />
       ) : jobs.length > 0 ? (
         <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5">

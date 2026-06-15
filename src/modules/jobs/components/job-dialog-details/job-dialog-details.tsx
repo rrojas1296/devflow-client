@@ -145,14 +145,12 @@ const JobDialogDetails = ({ job }: Props) => {
             {linkUrl?.slice(0, 40)} {linkUrl?.length > 40 && "..."}
           </p>
         </Button>
-        <div className="gap-5 flex">
+        <div className="gap-5 grid grid-cols-2">
           <DialogClose asChild>
-            <Button variant="outline" className="flex-1">
-              {t("Jobs.job-details.close")}
-            </Button>
+            <Button variant="outline">{t("Jobs.job-details.close")}</Button>
           </DialogClose>
           <Link to={linkUrl} target="_blank">
-            <Button className="flex-1">
+            <Button className="w-full">
               {t("Jobs.job-details.apply")}
               <SquareArrowOutUpRightIcon className="size-5" />
             </Button>
