@@ -63,6 +63,9 @@ function DialogContent({
           className,
         )}
         {...props}
+        style={{
+          scrollbarColor: "var(--text-2) var(--bg-2)",
+        }}
       >
         {children}
         {showCloseButton && (

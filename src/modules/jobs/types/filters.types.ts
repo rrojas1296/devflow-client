@@ -22,4 +22,10 @@ export interface JobFiltersState {
   technologies: FilterOption[];
   source: FilterOption[];
   modality: FilterOption[];
+  search: string;
+}
+
+export interface JobChipFilter {
+  value: string;
+  key: string;
 }

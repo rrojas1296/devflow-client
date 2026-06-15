@@ -67,7 +67,7 @@ const JobCard = ({ job, index }: Props) => {
         <div className="flex items-start gap-2">
           <div
             className={cn(
-              "grid place-items-center border border-border-2 bg-bg-1 text-center size-16 overflow-hidden rounded-[1.25rem] shrink-0",
+              "grid place-items-center border border-border-2 bg-bg-1 text-center size-16 overflow-hidden rounded-[1.25rem] shrink-0 text-text-2 text-xl font-bold",
               company.imageUrl && "border-none bg-bg-2",
             )}
           >

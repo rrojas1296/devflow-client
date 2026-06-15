@@ -4,15 +4,21 @@ import {
   sourceFilterOptions,
   technologyFilterOptions,
 } from "../constants/filters";
-import type { JobFilterParams, JobFiltersState } from "../types/filters.types";
+import type { JobFiltersState } from "../types/filters.types";
 import { useTranslation } from "react-i18next";
 import { jobCountries } from "../constants/countries";
 
-const useLoadFilters = (params: JobFilterParams) => {
+const useLoadFilters = (params: { [k: string]: string }) => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
 
-  const { locations, postedDate, source, modality, technologies } = params;
+  const {
+    locations = "",
+    postedDate = "",
+    source = "",
+    modality = "",
+    technologies = "",
+  } = params;
   const isChecked = (value: string, param?: string) =>
     param?.split(",").includes(value) ?? false;
   return {

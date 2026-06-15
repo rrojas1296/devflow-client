@@ -12,39 +12,38 @@ import {
 } from "lucide-react";
 import { Button } from "@/shared/components/shadcn-ui/button";
 import JobKpiCard from "../components/job-kpi-card/job-kpi-card";
-import JobFilters from "../components/job-filters/job-filters";
 import { cn } from "@/shared/lib/cn";
 import { useState } from "react";
 import JobCard from "../components/job-card/job-card";
-import useDebounce from "@/shared/hooks/use-debounce";
 import Pagination from "@/shared/components/pagination/pagination";
 import { ignoredParams } from "../constants/ignoredParams";
 import JobEmpty from "../components/job-empty/job-empty";
+import { useJobFiltersStore } from "../store/use-job-filters.store";
+import { getParamsByFilters } from "../lib/get-params-by-filters";
+import useDebounce from "@/shared/hooks/use-debounce";
+import JobFilters from "../components/job-filters/job-filters";
 
 const JobsPage = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const {
-    page = "1",
-    limit = "12",
-    ...params
-  } = Object.fromEntries(searchParams.entries());
 
-  const parsedPage = parseInt(page);
-  const parsedLimit = parseInt(limit);
-  const [orderBy, setOrderBy] = useState(params.orderBy ?? "new");
-  const debouncedSearch = useDebounce(params.search ?? "", 500);
+  const [page, setPage] = useState(1);
+  const limit = 12;
+  const [orderByState, setOrderByState] = useState("new");
+  const { filters } = useJobFiltersStore();
+  const params = Object.fromEntries(getParamsByFilters(filters).entries());
+  const debouncedSearch = useDebounce(filters.search, 500);
   const { data } = useGetAllJobs({
     ...params,
     search: debouncedSearch,
-    orderBy,
-    page,
-    limit,
+    orderBy: orderByState,
+    page: page.toString(),
+    limit: limit.toString(),
   });
   const jobs = data?.jobs ?? [];
   const count = data?.count ?? 0;
-  const start = Math.max(1, (parsedPage - 1) * parsedLimit + 1);
-  const end = Math.min(count, start + parsedLimit - 1);
+  const start = Math.max(1, (page - 1) * limit + 1);
+  const end = Math.min(count, start + limit - 1);
 
   const showClearFilters = Array.from(searchParams.entries()).some(
     ([key, value]) => !ignoredParams.includes(key) && value,
@@ -55,7 +54,7 @@ const JobsPage = () => {
     setSearchParams(params);
   };
 
-  const handleOrderBy = (key: string) => setOrderBy(key);
+  const handleOrderBy = (key: string) => setOrderByState(key);
   return (
     <div className="flex flex-col gap-5">
       <div>
@@ -126,7 +125,7 @@ const JobsPage = () => {
               onClick={() => handleOrderBy(key)}
               className={cn(
                 "h-full px-3 rounded-3xl cursor-pointer outline-none",
-                orderBy === key && "bg-bg-accent text-text-accent",
+                orderByState === key && "bg-bg-accent text-text-accent",
               )}
             >
               {t(`Jobs.orderBy.${key}`)}
@@ -144,11 +143,7 @@ const JobsPage = () => {
         <JobEmpty />
       )}
       <div className="flex items-center justify-center">
-        <Pagination
-          total={count}
-          limit={parseInt(limit)}
-          page={parseInt(page)}
-        />
+        <Pagination total={count} limit={limit} page={page} setPage={setPage} />
       </div>
     </div>
   );

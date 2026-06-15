@@ -157,5 +157,5 @@
 }
 
 .html-content hr {
-  @apply text-border-1;
+  @apply text-border-1 opacity-0;
 }

@@ -13,65 +13,57 @@ import Input from "@/shared/components/input/input";
 import type { FilterOption, JobFiltersState } from "../../types/filters.types";
 import { useSearchParams } from "react-router";
 import { capitalize } from "@/shared/lib/capitalize";
-import useLoadFilters from "../../hooks/use-load-filters";
 import { ignoredParams } from "../../constants/ignoredParams";
+import { useEffect } from "react";
+import { getFiltersByParams } from "../../lib/get-filters-by-params";
+import { getParamsByFilters } from "../../lib/get-params-by-filters";
+import { useJobFiltersStore } from "../../store/use-job-filters.store";
+import useGetChipFiltersJobs from "../../hooks/use-get-chip-filters-jobs";
 
 const JobFilters = () => {
   const { t } = useTranslation();
+  const { filters, setFilters } = useJobFiltersStore();
   const [searchParams, setSearchParams] = useSearchParams();
   const showFilters = Array.from(searchParams.entries()).some(
     ([key, value]) => !ignoredParams.includes(key) && value,
   );
-  const jobFilterParams = Object.fromEntries(searchParams.entries());
-  const badgets = Object.keys(jobFilterParams)
-    .map((key) => ({
-      value: jobFilterParams[key]?.toString().split(",") ?? [],
-      key,
-    }))
-    .flat();
+  const chips = useGetChipFiltersJobs();
 
-  const filters = useLoadFilters(jobFilterParams);
   const handleSearch = (text: string) => {
-    const params = new URLSearchParams(jobFilterParams);
-    if (text.length) {
-      params.set("search", text);
-    } else {
-      params.delete("search");
-    }
-    setSearchParams(params);
+    setFilters({
+      ...filters,
+      search: text,
+    });
   };
 
-  const handleDeleteParam = (value: string, key: string) => {
-    const params = new URLSearchParams(jobFilterParams);
-    const vals = (params.get(key)?.split(",") ?? []).filter((v) => v !== value);
-
-    if (vals.length) {
-      params.set(key, vals.join(","));
-    } else {
-      params.delete(key);
-    }
-    setSearchParams(params);
+  const handleDeleteParam = (value: string, key: keyof JobFiltersState) => {
+    const values = (filters[key] as FilterOption[]).map((f) => ({
+      ...f,
+      checked: f.value === value ? false : f.checked,
+    }));
+    setFilters({
+      ...filters,
+      [key]: values,
+    });
   };
 
   const handleFilter = (key: keyof JobFiltersState, opts: FilterOption[]) => {
-    const params = new URLSearchParams(jobFilterParams);
-    params.set(
-      key,
-      opts
-        .filter((o) => o.checked)
-        .map((o) => o.value)
-        .join(","),
-    );
-    params.set("page", "1");
-
-    for (const [k, v] of params.entries()) {
-      if (!v || v.trim() === "") {
-        params.delete(k);
-      }
-    }
-
-    setSearchParams(params);
+    setFilters({
+      ...filters,
+      [key]: opts,
+    });
   };
+
+  useEffect(() => {
+    const params = getParamsByFilters(filters);
+    setSearchParams(params);
+  }, [filters]);
+
+  useEffect(() => {
+    const params = Object.fromEntries(searchParams.entries());
+    const f = getFiltersByParams(params, t);
+    setFilters(f);
+  }, []);
 
   return (
     <div>
@@ -81,7 +73,7 @@ const JobFilters = () => {
           className="w-full lg:max-w-3xl"
           placeholder={t("Jobs.filters.searchPlaceholder")}
           onChange={(e) => handleSearch(e.target.value)}
-          value={jobFilterParams.search ?? ""}
+          value={filters.search ?? ""}
         />
         <JobFilterButton
           label={t("Jobs.filters.options.location.label")}
@@ -122,21 +114,23 @@ const JobFilters = () => {
           setOptions={(opts) => handleFilter("modality", opts)}
         />
       </div>
-      {showFilters ? (
+      {chips.length > 0 ? (
         <>
           <hr className="flex-1 text-border-2 my-3" />
           <div className="flex flex-wrap gap-3">
-            {badgets.map(({ value, key }) => {
+            {chips.map(({ value, key }) => {
               if (ignoredParams.includes(key)) return null;
-              return value.map((val) => (
-                <div
-                  onClick={() => handleDeleteParam(val, key)}
-                  className="text-sm text-text-accent bg-bg-accent rounded-3xl px-3 h-6 flex items-center gap-2"
-                >
-                  {key === "search" ? val : capitalize(val)}
-                  <XIcon className="size-4 cursor-pointer" />
+              return (
+                <div className="text-sm text-text-accent bg-bg-accent rounded-3xl px-3 h-6 flex items-center gap-2">
+                  {capitalize(value)}
+                  <XIcon
+                    onClick={() =>
+                      handleDeleteParam(value, key as keyof JobFiltersState)
+                    }
+                    className="size-4 cursor-pointer"
+                  />
                 </div>
-              ));
+              );
             })}
           </div>
         </>

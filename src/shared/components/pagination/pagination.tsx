@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { Button } from "../shadcn-ui/button";
-import { useSearchParams } from "react-router";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -12,9 +11,9 @@ interface Props {
   total: number;
   limit: number;
   page: number;
+  setPage: (page: number) => void;
 }
-const Pagination = ({ total, limit, page }: Props) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+const Pagination = ({ total, limit, page, setPage }: Props) => {
   const buttons = useMemo(() => {
     const arr = Array.from(
       { length: Math.ceil(total / limit) },
@@ -31,11 +30,7 @@ const Pagination = ({ total, limit, page }: Props) => {
     return arr.slice(start, end);
   }, [page, limit, total]);
 
-  const handleChangePage = (page: number) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("page", page.toString());
-    setSearchParams(params);
-  };
+  const handleChangePage = (page: number) => setPage(page);
   return (
     <div className="flex gap-2">
       <Button

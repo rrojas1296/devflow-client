@@ -6,7 +6,6 @@ import {
   CheckIcon,
   ClipboardIcon,
   EarthIcon,
-  LinkIcon,
   MapPinIcon,
   SquareArrowOutUpRightIcon,
 } from "lucide-react";
@@ -16,6 +15,7 @@ import { jobCountries } from "../../constants/countries";
 import { Button } from "@/shared/components/shadcn-ui/button";
 import { useState } from "react";
 import { DialogClose } from "@/shared/components/shadcn-ui/dialog";
+import { Link } from "react-router";
 
 interface Props {
   job: Job;
@@ -151,10 +151,12 @@ const JobDialogDetails = ({ job }: Props) => {
               {t("Jobs.job-details.close")}
             </Button>
           </DialogClose>
-          <Button className="flex-1">
-            {t("Jobs.job-details.apply")}
-            <SquareArrowOutUpRightIcon className="size-5" />
-          </Button>
+          <Link to={linkUrl} target="_blank">
+            <Button className="flex-1">
+              {t("Jobs.job-details.apply")}
+              <SquareArrowOutUpRightIcon className="size-5" />
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
