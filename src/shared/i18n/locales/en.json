@@ -108,6 +108,7 @@
       "title": "No jobs found",
       "subtitle": "Try adjusting your filters or search criteria",
       "button": "Reset filters"
-    }
+    },
+    "loading": "Loading jobs"
   }
 }

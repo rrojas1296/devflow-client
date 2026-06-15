@@ -49,10 +49,9 @@ export const technologyFilterOptions: FilterOption[] = jobTechnologies.map(
   (j) => ({ ...j, checked: false }),
 );
 
-export const locationFilterOptions: FilterOption[] = jobCountries.map((c) => {
-  const locale = localStorage.getItem(I18N_LANG_KEY) || "en";
+export const locationFilterOptions = jobCountries.map((c) => {
   return {
-    label: c.label[locale],
+    label: c.label,
     value: c.value,
     checked: false,
   };

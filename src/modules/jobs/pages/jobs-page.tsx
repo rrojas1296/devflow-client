@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import useGetAllJobs from "../hooks/use-get-all-jobs";
-import { useSearchParams } from "react-router";
 import {
   ArrowUpDownIcon,
   BriefcaseIcon,
@@ -16,45 +15,38 @@ import { cn } from "@/shared/lib/cn";
 import { useState } from "react";
 import JobCard from "../components/job-card/job-card";
 import Pagination from "@/shared/components/pagination/pagination";
-import { ignoredParams } from "../constants/ignoredParams";
 import JobEmpty from "../components/job-empty/job-empty";
-import { useJobFiltersStore } from "../store/use-job-filters.store";
-import { getParamsByFilters } from "../lib/get-params-by-filters";
-import useDebounce from "@/shared/hooks/use-debounce";
 import JobFilters from "../components/job-filters/job-filters";
+import useGetChipFiltersJobs from "../hooks/use-get-chip-filters-jobs";
+import {
+  jobFiltersInitialState,
+  useJobFiltersStore,
+} from "../store/use-job-filters.store";
+import JobLoading from "../components/job-loading/job-loading";
 
 const JobsPage = () => {
   const { t } = useTranslation();
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const [page, setPage] = useState(1);
   const limit = 12;
-  const [orderByState, setOrderByState] = useState("new");
-  const { filters } = useJobFiltersStore();
-  const params = Object.fromEntries(getParamsByFilters(filters).entries());
-  const debouncedSearch = useDebounce(filters.search, 500);
-  const { data } = useGetAllJobs({
-    ...params,
-    search: debouncedSearch,
-    orderBy: orderByState,
-    page: page.toString(),
-    limit: limit.toString(),
+  const [orderBy, setOrder] = useState("new");
+  const { data, isFetching } = useGetAllJobs({
+    orderBy,
+    page,
+    limit,
   });
+  const { setFilters } = useJobFiltersStore();
+  const chips = useGetChipFiltersJobs();
   const jobs = data?.jobs ?? [];
   const count = data?.count ?? 0;
   const start = Math.max(1, (page - 1) * limit + 1);
   const end = Math.min(count, start + limit - 1);
 
-  const showClearFilters = Array.from(searchParams.entries()).some(
-    ([key, value]) => !ignoredParams.includes(key) && value,
-  );
+  const showClearFilters = chips.length > 0;
 
-  const handleClearFilters = () => {
-    const params = new URLSearchParams();
-    setSearchParams(params);
-  };
+  const handleClearFilters = () => setFilters(jobFiltersInitialState);
 
-  const handleOrderBy = (key: string) => setOrderByState(key);
+  const handleOrderBy = (key: string) => setOrder(key);
   return (
     <div className="flex flex-col gap-5">
       <div>
@@ -125,7 +117,7 @@ const JobsPage = () => {
               onClick={() => handleOrderBy(key)}
               className={cn(
                 "h-full px-3 rounded-3xl cursor-pointer outline-none",
-                orderByState === key && "bg-bg-accent text-text-accent",
+                orderBy === key && "bg-bg-accent text-text-accent",
               )}
             >
               {t(`Jobs.orderBy.${key}`)}
@@ -133,7 +125,9 @@ const JobsPage = () => {
           ))}
         </div>
       </div>
-      {jobs.length > 0 ? (
+      {isFetching ? (
+        <JobLoading />
+      ) : jobs.length > 0 ? (
         <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5">
           {jobs.map((job, i) => (
             <JobCard key={job.id} job={job} index={i} />

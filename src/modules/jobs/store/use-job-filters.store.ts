@@ -5,15 +5,16 @@ interface JobFiltersStore {
   filters: JobFiltersState;
   setFilters: (filter: JobFiltersState) => void;
 }
+export const jobFiltersInitialState = {
+  locations: [],
+  modality: [],
+  postedDate: [],
+  source: [],
+  technologies: [],
+  search: "",
+};
 
 export const useJobFiltersStore = create<JobFiltersStore>((set) => ({
-  filters: {
-    locations: [],
-    modality: [],
-    postedDate: [],
-    source: [],
-    technologies: [],
-    search: "",
-  },
+  filters: jobFiltersInitialState,
   setFilters: (filter: JobFiltersState) => set({ filters: filter }),
 }));

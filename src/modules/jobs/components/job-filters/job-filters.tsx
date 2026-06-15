@@ -21,12 +21,10 @@ import { useJobFiltersStore } from "../../store/use-job-filters.store";
 import useGetChipFiltersJobs from "../../hooks/use-get-chip-filters-jobs";
 
 const JobFilters = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const { filters, setFilters } = useJobFiltersStore();
   const [searchParams, setSearchParams] = useSearchParams();
-  const showFilters = Array.from(searchParams.entries()).some(
-    ([key, value]) => !ignoredParams.includes(key) && value,
-  );
   const chips = useGetChipFiltersJobs();
 
   const handleSearch = (text: string) => {
@@ -61,9 +59,9 @@ const JobFilters = () => {
 
   useEffect(() => {
     const params = Object.fromEntries(searchParams.entries());
-    const f = getFiltersByParams(params, t);
+    const f = getFiltersByParams(params, t, locale);
     setFilters(f);
-  }, []);
+  }, [locale]);
 
   return (
     <div>

@@ -27,6 +27,7 @@ const JobFilterButton = ({
   cols = "1",
   many = true,
 }: Props) => {
+  const selectedLength = options.filter((opt) => opt.checked).length;
   const handleChecked = (value: string) => {
     const newOptions = options.map((opt) => {
       if (opt.value === value) {
@@ -49,6 +50,11 @@ const JobFilterButton = ({
         <Button variant="outline">
           {Icon}
           {label}
+          {selectedLength > 0 && (
+            <div className="size-5 rounded-full bg-bg-accent grid place-items-center shrink-0">
+              {selectedLength}
+            </div>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="min-w-auto w-fit">

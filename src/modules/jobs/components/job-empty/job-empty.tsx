@@ -1,14 +1,20 @@
 import { Button } from "@/shared/components/shadcn-ui/button";
 import { SlidersHorizontal, SparklesIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router";
+import { useJobFiltersStore } from "../../store/use-job-filters.store";
 
 const JobEmpty = () => {
   const { t } = useTranslation();
-  const setSearchParams = useSearchParams();
+  const { setFilters } = useJobFiltersStore();
   const clearFilters = () => {
-    const params = new URLSearchParams();
-    setSearchParams[1](params);
+    setFilters({
+      locations: [],
+      modality: [],
+      postedDate: [],
+      search: "",
+      source: [],
+      technologies: [],
+    });
   };
   return (
     <div className="bg-bg-2 h-96 border border-border-2 rounded-3xl grid place-items-center ">

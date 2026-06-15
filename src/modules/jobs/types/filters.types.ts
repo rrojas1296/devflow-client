@@ -1,13 +1,13 @@
 export interface JobFilterParams {
-  page?: string;
-  limit?: string;
+  page: number;
+  limit: number;
+  orderBy: string;
   technologies?: string;
   modality?: string;
   locations?: string;
   postedDate?: string;
   source?: string;
   search?: string;
-  orderBy?: string;
 }
 
 export interface FilterOption {
