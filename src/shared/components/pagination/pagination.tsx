@@ -51,6 +51,7 @@ const Pagination = ({ total, limit, page, setPage }: Props) => {
       </Button>
       {buttons.map((n) => (
         <Button
+          key={n}
           onClick={() => handleChangePage(n)}
           size="icon"
           variant={page === n ? "default" : "outline"}

@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { jobCountries } from "../../constants/countries";
 import { Button } from "@/shared/components/shadcn-ui/button";
 import { useState } from "react";
-import { DialogClose } from "@/shared/components/shadcn-ui/dialog";
+import { DialogClose, DialogTitle } from "@/shared/components/shadcn-ui/dialog";
 import { Link } from "react-router";
 
 interface Props {
@@ -79,7 +79,9 @@ const JobDialogDetails = ({ job }: Props) => {
           )}
         </div>
         <div>
-          <p className="font-bold text-base text-text-1">{title}</p>
+          <DialogTitle className="font-bold text-base text-text-1">
+            {title}
+          </DialogTitle>
           <p className="text-sm text-text-2 mt-1">{company.name}</p>
         </div>
       </div>
@@ -93,7 +95,10 @@ const JobDialogDetails = ({ job }: Props) => {
           {capitalize(modality)}
         </div>
         {stack.map((t) => (
-          <div className="bg-badge-1 rounded-3xl h-6 px-3 flex items-center justify-center">
+          <div
+            key={t}
+            className="bg-badge-1 rounded-3xl h-6 px-3 flex items-center justify-center"
+          >
             {capitalize(t)}
           </div>
         ))}

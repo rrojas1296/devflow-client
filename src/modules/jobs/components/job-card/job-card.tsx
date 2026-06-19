@@ -100,7 +100,10 @@ const JobCard = ({ job, index }: Props) => {
           {capitalize(modality)}
         </div>
         {stack.slice(0, 8).map((t) => (
-          <div className="bg-badge-1 rounded-3xl h-6 px-3 flex items-center justify-center">
+          <div
+            key={t}
+            className="bg-badge-1 rounded-3xl h-6 px-3 flex items-center justify-center"
+          >
             {capitalize(t)}
           </div>
         ))}
@@ -150,7 +153,7 @@ const JobCard = ({ job, index }: Props) => {
               {t("Jobs.card.details")}
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent showCloseButton={false}>
             <JobDialogDetails job={job} />
           </DialogContent>
         </Dialog>

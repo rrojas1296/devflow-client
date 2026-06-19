@@ -51,7 +51,7 @@ const JobFilterButton = ({
           {Icon}
           {label}
           {selectedLength > 0 && (
-            <div className="size-5 rounded-full bg-bg-accent grid place-items-center shrink-0 text-xs">
+            <div className="size-5 rounded-full bg-bg-accent grid place-items-center text-text-accent shrink-0 text-xs">
               {selectedLength}
             </div>
           )}
@@ -68,6 +68,7 @@ const JobFilterButton = ({
           {options.map((opt) => {
             return (
               <div
+                key={opt.value}
                 onClick={() => handleChecked(opt.value)}
                 className="flex items-center gap-2 cursor-pointer"
               >

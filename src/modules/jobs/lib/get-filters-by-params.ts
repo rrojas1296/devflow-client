@@ -12,15 +12,18 @@ export const getFiltersByParams = (
   params: {
     [key: string]: string;
   },
+  localtions: string[],
   t: TFunction,
   locale: string,
 ): JobFiltersState => {
   return {
-    locations: locationFilterOptions.map((o) => ({
-      ...o,
-      label: o.label[locale],
-      checked: params.locations?.includes(o.value) ?? false,
-    })),
+    locations: locationFilterOptions
+      .map((o) => ({
+        ...o,
+        label: o.label[locale],
+        checked: params.locations?.includes(o.value) ?? false,
+      }))
+      .filter((f) => localtions?.includes(f.value)),
     postedDate: postedDateFilterOptions.map((o) => ({
       ...o,
       label: t(o.label),

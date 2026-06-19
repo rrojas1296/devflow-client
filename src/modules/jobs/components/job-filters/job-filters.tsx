@@ -11,20 +11,23 @@ import {
 } from "lucide-react";
 import Input from "@/shared/components/input/input";
 import type { FilterOption, JobFiltersState } from "../../types/filters.types";
-import { useSearchParams } from "react-router";
 import { capitalize } from "@/shared/lib/capitalize";
 import { ignoredParams } from "../../constants/ignoredParams";
-import { useEffect } from "react";
-import { getFiltersByParams } from "../../lib/get-filters-by-params";
-import { getParamsByFilters } from "../../lib/get-params-by-filters";
 import { useJobFiltersStore } from "../../store/use-job-filters.store";
 import useGetChipFiltersJobs from "../../hooks/use-get-chip-filters-jobs";
 import { jobCountries } from "../../constants/countries";
+import { useEffect } from "react";
+import { getFiltersByParams } from "../../lib/get-filters-by-params";
+import useGetFilterLocations from "../../hooks/use-get-filter-locations";
+import { useSearchParams } from "react-router";
+import { getParamsByFilters } from "../../lib/get-params-by-filters";
 
 const JobFilters = () => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const { filters, setFilters } = useJobFiltersStore();
+  const { data } = useGetFilterLocations();
+  const locations = data ?? [];
   const [searchParams, setSearchParams] = useSearchParams();
   const chips = useGetChipFiltersJobs();
 
@@ -59,10 +62,11 @@ const JobFilters = () => {
   }, [filters]);
 
   useEffect(() => {
+    if (!locations.length) return;
     const params = Object.fromEntries(searchParams.entries());
-    const f = getFiltersByParams(params, t, locale);
+    const f = getFiltersByParams(params, locations, t, locale);
     setFilters(f);
-  }, [locale]);
+  }, [locations, locale]);
 
   return (
     <div>
@@ -117,10 +121,13 @@ const JobFilters = () => {
         <>
           <hr className="flex-1 text-border-2 my-3" />
           <div className="flex flex-wrap gap-3">
-            {chips.map(({ value, key }) => {
+            {chips.map(({ value, key }, i) => {
               if (ignoredParams.includes(key)) return null;
               return (
-                <div className="text-sm text-text-accent bg-bg-accent rounded-3xl px-3 h-6 flex items-center gap-2">
+                <div
+                  key={i}
+                  className="text-sm text-text-accent bg-bg-accent rounded-3xl px-3 h-6 flex items-center gap-2"
+                >
                   {key === "postedDate"
                     ? t(`Jobs.filters.options.postedDate.options.${value}`)
                     : key === "locations"

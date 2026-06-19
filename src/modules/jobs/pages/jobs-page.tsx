@@ -21,6 +21,8 @@ import useGetChipFiltersJobs from "../hooks/use-get-chip-filters-jobs";
 import { useJobFiltersStore } from "../store/use-job-filters.store";
 import JobLoading from "../components/job-loading/job-loading";
 import { getFiltersByParams } from "../lib/get-filters-by-params";
+import useGetJobsKpis from "../hooks/use-get-jobs-kpis";
+import useGetFilterLocations from "../hooks/use-get-filter-locations";
 
 const JobsPage = () => {
   const { t, i18n } = useTranslation();
@@ -34,7 +36,9 @@ const JobsPage = () => {
     limit,
   });
   const { setFilters } = useJobFiltersStore();
+  const { data: locations = [] } = useGetFilterLocations();
   const chips = useGetChipFiltersJobs();
+  const { data: kpis } = useGetJobsKpis();
   const jobs = data?.jobs ?? [];
   const count = data?.count ?? 0;
   const start = Math.max(1, (page - 1) * limit + 1);
@@ -45,7 +49,7 @@ const JobsPage = () => {
   const handleClearFilters = () => {
     const p = new URLSearchParams();
     const params = Object.fromEntries(p.entries());
-    const f = getFiltersByParams(params, t, locale);
+    const f = getFiltersByParams(params, locations, t, locale);
     setFilters(f);
   };
 
@@ -63,30 +67,30 @@ const JobsPage = () => {
           title={t("Jobs.kpis.total.title")}
           subtitle={t("Jobs.kpis.total.description")}
           icon={<BriefcaseIcon className="text-text-1 size-5" />}
-          value={"745"}
+          value={kpis?.total ?? "0"}
         />
         <JobKpiCard
           title={t("Jobs.kpis.added.title")}
           subtitle={t("Jobs.kpis.added.description")}
           icon={<ClockIcon className="text-text-1 size-5" />}
-          value="240"
+          value={kpis?.added ?? "0"}
         />
         <JobKpiCard
           title={t("Jobs.kpis.sources.title")}
           subtitle={t("Jobs.kpis.sources.description")}
           icon={<EarthIcon className="text-text-1 size-5" />}
-          value="12"
+          value={kpis?.sources ?? "0"}
         />
         <JobKpiCard
           title={t("Jobs.kpis.companies.title")}
           subtitle={t("Jobs.kpis.companies.description")}
           icon={<Building2Icon className="text-text-1 size-5" />}
-          value="83"
+          value={kpis?.companies ?? "0"}
         />
       </section>
       <section className="p-5 rounded-3xl border border-border-2 bg-bg-2 flex flex-col gap-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 h-9">
             <SlidersHorizontalIcon className="text-text-2 size-5" />
             <p className="text-text-2 text-sm">{t("Jobs.filters.title")}</p>
           </div>
@@ -117,6 +121,7 @@ const JobsPage = () => {
           <ArrowUpDownIcon className="size-4" />
           {["new", "old", "az"].map((key) => (
             <button
+              key={key}
               onClick={() => handleOrderBy(key)}
               className={cn(
                 "h-full px-3 rounded-3xl cursor-pointer outline-none",

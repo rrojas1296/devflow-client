@@ -22,6 +22,7 @@ import { Link, useLocation } from "react-router";
 import type { Theme } from "@/shared/types/theme.types";
 import { useTheme } from "@/shared/store/use-theme.store";
 import { I18N_LANG_KEY } from "@/shared/i18n/i18n-keys";
+import type { JSX } from "react/jsx-runtime";
 
 const options = [
   {
@@ -48,7 +49,7 @@ const options = [
 
 const HeaderApp = () => {
   const { t, i18n } = useTranslation();
-  const { setTheme } = useTheme();
+  const { setTheme, theme } = useTheme();
   const { pathname } = useLocation();
   const language = i18n.language;
 
@@ -58,6 +59,11 @@ const HeaderApp = () => {
   };
 
   const handleTheme = (theme: Theme) => setTheme(theme);
+  const icons: Record<Theme, JSX.Element> = {
+    dark: <MoonIcon className="size-5" />,
+    light: <SunIcon className="size-5" />,
+    system: <MonitorIcon className="size-5" />,
+  };
   return (
     <header className="sticky top-0 bg-bg-1 z-10 flex items-center justify-center py-5 border-b border-border-2 xl:py-0 xl:h-16">
       <div className="w-11/12 max-w-9xl font-bold text-xl flex justify-between items-center">
@@ -67,7 +73,7 @@ const HeaderApp = () => {
         <ul className="lg:flex gap-5 hidden">
           {options.map(({ href, label }) => {
             return (
-              <Link to={href}>
+              <Link key={href} to={href}>
                 <li
                   className={cn(
                     "text-text-2 text-sm h-9 px-3 rounded-3xl grid place-items-center font-normal",
@@ -103,7 +109,7 @@ const HeaderApp = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
-                <MoonIcon className="size-5" />
+                {icons[theme!]}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="min-w-auto flex flex-col w-36">
